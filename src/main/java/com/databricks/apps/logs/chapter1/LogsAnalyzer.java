@@ -1,6 +1,5 @@
 package com.databricks.apps.logs.chapter1;
 
-import com.databricks.apps.logs.ApacheAccessLog;
 import com.databricks.apps.logs.ELBAccessLog;
 
 import org.apache.spark.SparkConf;
@@ -69,6 +68,16 @@ public class LogsAnalyzer {
        contentSizes.min(Comparator.naturalOrder()),
        contentSizes.max(Comparator.naturalOrder())));
 
+    // compute requests count
+    
+    List<Tuple2<String, Long>> requestsCount = 
+    		accessLogs.mapToPair(log -> new Tuple2<>(log.getRequest(), 1L)) 
+            .reduceByKey(SUM_REDUCER)
+            .top(10, new ValueComparator<>(Comparator.<Long>naturalOrder()));
+    
+    System.out.println(String.format(" • Top requests count: %s", requestsCount));
+
+            
     /*
     // Compute Response Code to Count.
     List<Tuple2<Integer, Long>> responseCodeToCount =
