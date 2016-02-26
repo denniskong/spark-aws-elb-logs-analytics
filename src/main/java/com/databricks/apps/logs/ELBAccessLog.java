@@ -88,7 +88,7 @@ public class ELBAccessLog implements Serializable {
 
 		this.dateTimeString = timestamp;
 		this.elbName = elb;
-		this.clientIpAddress = clientIpAddress;
+		this.setClientIpAddress(clientIpAddress);
 		this.clientPort = Integer.parseInt( clientPort ); 
 		this.backendIpAddress = backendIpAddress;
 		this.backendPort = Integer.parseInt( backendPort );
@@ -172,6 +172,14 @@ public class ELBAccessLog implements Serializable {
 
 	public void setRequest(String request) {
 		this.request = request;
+	}
+
+	public String getClientIpAddress() {
+		return clientIpAddress;
+	}
+
+	public void setClientIpAddress(String clientIpAddress) {
+		this.clientIpAddress = clientIpAddress;
 	}
 
 }
